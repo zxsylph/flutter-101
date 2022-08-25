@@ -11,6 +11,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      onGenerateRoute: (settings) {
+        if (settings.name == '/') {
+          return MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Demo Home Page'));
+        }
+
+        if (settings.name == '/detail') {
+          return MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Detail Page'));
+        }
+
+        return MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Unknown Page'));
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -24,7 +35,6 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -51,6 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
+    Navigator.pushNamed(
+              context,
+              '/detail',
+            );
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
