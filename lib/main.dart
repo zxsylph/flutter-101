@@ -23,11 +23,8 @@ Future<Test> getTestApi() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    print("Response status: ${response.body}");
     var json = jsonDecode(response.body);
     var test = Test.fromJson(json['data']);
-    print(test.message);
-
     return test;
   } else {
     // If the server did not return a 200 OK response,
