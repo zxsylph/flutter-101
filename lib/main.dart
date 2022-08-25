@@ -1,4 +1,40 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class Test {
+  String message;
+
+  Test({required this.message});
+
+  factory Test.fromJson(Map<String, dynamic> json){
+    return Test(
+      message: json['message']
+    );
+  }
+}
+
+Future<Test> getTestApi() async {
+  final response = await http
+      .get(Uri.parse('https://run.mocky.io/v3/f253e36f-351a-442e-a926-8125ccce416c'));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    print("Response status: ${response.body}");
+    var json = jsonDecode(response.body);
+    var test = Test.fromJson(json['data']);
+    print(test.message);
+
+    return test;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
 
 void main() {
   runApp(const MyApp());
@@ -48,7 +84,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<Test> test;
   int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    test = getTestApi();
+  }
+
 
   void _incrementCounter() {
     setState(() {
@@ -102,6 +146,19 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            FutureBuilder<Test>(
+            future: test,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!.message);
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+
+              // By default, show a loading spinner.
+              return const CircularProgressIndicator();
+            },
+          ),
           ],
         ),
       ),
