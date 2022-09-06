@@ -12,6 +12,12 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>need location when in use</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>need location when in use</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>need location when in use</string>
 	<key>CFBundleName</key>
 	<string>flutter_101</string>
 	<key>CFBundlePackageType</key>
